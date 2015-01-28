@@ -10,7 +10,7 @@
     "url": "https://github.com/saikojosh/Object-Assign-Deep/issues"
   },
   "name": "object-assign-deep",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Like \"object-assign\", but deeper.",
   "keywords": [
     "object",
