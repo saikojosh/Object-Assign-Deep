@@ -20,14 +20,16 @@ module.exports = function ME (target, source) {
 		for (var k = 0; k < keys.length; k++) {
       var key = keys[k];
 
-      // Extend objects.
-      if (_.isObject(output[key]) || _.isObject(from[key])) {
-        output[key] = ME(output[key], from[key]);
+      // Merge arrays.
+      if (_.isArray(output[key]) || _.isArray(from[key])) {
+        var o = (_.isArray(output[key]) ? output[key].slice() : []);
+        var f = (_.isArray(from[key])   ? from[key].slice()   : []);
+        output[key] = o.concat(f);
       }
 
-      // Merge arrays.
-      else if (_.isArray(output[key]) || _.isArray(from[key])) {
-        output[key] = _.union(output[key], from[key]);
+      // Extend objects.
+      else if (_.isObject(output[key]) || _.isObject(from[key])) {
+        output[key] = ME(output[key], from[key]);
       }
 
       // Copy all other types.
