@@ -25,6 +25,11 @@ module.exports = function ME (target, source) {
         output[key] = ME(output[key], from[key]);
       }
 
+      // Merge arrays.
+      else if (_.isArray(output[key]) || _.isArray(from[key])) {
+        output[key] = _.union(output[key], from[key]);
+      }
+
       // Copy all other types.
       else {
         output[key] = from[key];
