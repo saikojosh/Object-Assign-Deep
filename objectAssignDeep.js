@@ -27,6 +27,11 @@ module.exports = function ME (target, source) {
         output[key] = o.concat(f);
       }
 
+      // Copy functions references.
+      else if (_.isFunction(output[key]) || _.isFunction(from[key])) {
+        output[key] = from[key];
+      }
+
       // Extend objects.
       else if (_.isObject(output[key]) || _.isObject(from[key])) {
         output[key] = ME(output[key], from[key]);
