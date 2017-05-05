@@ -13,7 +13,7 @@ Do not use this module if:
 If you need to do something fancy like the above there are better solutions out there.
 
 ## Differences to Object.Assign()
-This module does NOT mutate the first parameter like Object.assign(), instead it always returns a new object with all the properties copied across and the parameters left intact.
+By default this module does NOT mutate the first parameter like Object.assign(), instead it always returns a new object with all the properties copied across and the parameters left intact. You can use the objectAssignDeep.into() function to make the first parameter the target and mutate it.
 
 ## Quick Start
 You can merge plain objects or clone them:
@@ -24,6 +24,14 @@ const objectAssignDeep = require(`object-assign-deep`);
 const mergedObjects = objectAssignDeep(object1, object2, ...objectN);
 
 const clonedObject = objectAssignDeep(originalObject);
+```
+
+To make the first parameter the target and mutate it like Object.assign():
+
+```javascript
+const objectAssignDeep = require(`object-assign-deep`);
+
+objectAssignDeep.into(target, object1, object2, ...objectN);
 ```
 
 Simples!
