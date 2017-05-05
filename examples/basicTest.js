@@ -1,35 +1,58 @@
+'use strict';
+
 /*
- * Example.
+ * BASIC TEST
+ *
+ * [Description]
+ *   Demonstrates that arrays are concatenated without removing duplicates, and are also recursed into to break
+ *   references on any objects or arrays that are contained within.
+ *
+ * [Expected Output]
+ *   {
+ *     prop1: 'Hello',
+ *     prop2: 'Universe',
+ *     nested: { bool: false, super: 999, still: 'here!' },
+ *     array1: null,
+ *     array2: [ 4, 5, 6 ],
+ *     name: 'Bob',
+ *     location: 'United Kingdom'
+ *   }
+ *
  */
 
-var objectAssignDeep = require('../objectAssignDeep');
+/* eslint no-console: 0 */
 
-var a = {
-  prop1: 'Hello',
-  prop2: 'World',
-  nested: {
-    bool: true,
-    super: 123,
-    still: 'here!'
-  }
+const objectAssignDeep = require(`../objectAssignDeep`);
+
+const objectA = {
+	prop1: `Hello`,
+	prop2: `World`,
+	nested: {
+		bool: true,
+		super: 123,
+		still: `here!`,
+	},
+	array1: [1, 2, 3],
+	array2: [4, 5, 6],
 };
 
-var b = {
-  prop2: 'Universe',
-  name:  'Josh',
-  nested: {
-    bool: false
-  }
+const objectB = {
+	prop2: `Universe`,
+	name: `Josh`,
+	nested: {
+		bool: false,
+	},
+	array1: null,
 };
 
-var c = {
-  location: 'United Kingdom',
-  name:     'Bob',
-  nested: {
-    super: 999
-  }
+const objectC = {
+	location: `United Kingdom`,
+	name: `Bob`,
+	nested: {
+		super: 999,
+	},
 };
 
-var result = objectAssignDeep(a, b, c);
+const result = objectAssignDeep(objectA, objectB, objectC);
 
-console.log('Result:', result);
+console.log(`Result:`, result);

@@ -1,21 +1,42 @@
+'use strict';
+
 /*
- * Example.
+ * ARRAY TEST
+ *
+ * [Description]
+ *   Demonstrates that arrays are concatenated without removing duplicates, and are also recursed into to break
+ *   references on any objects or arrays that are contained within.
+ *
+ * [Expected Output]
+ *   {
+ *     shallowArray: [ 'z', 'G', 'a' ],
+ *     deepArray: [ 1, 2, 3, 10, 11, 12, 1, 2, 3, { deep: 'yes' }, 4, 5, 6 ] },
+ *   }
+ *
  */
 
-var objectAssignDeep = require('../objectAssignDeep');
+/* eslint no-console: 0 */
 
-var a = {
-  prop1: 'Hello',
-  prop2: 'World',
-  arr:   ['a', 'x', 'y', 'y', 'y']
+const objectAssignDeep = require(`../objectAssignDeep`);
+
+const deeplyNestedObject = { deep: `yes` };
+
+const objectA = {
+	shallowArray: [`a`, `x`, `y`, `y`, `y`],
+	deepArray: [1, 2, 3, 10, 11, 12],
 };
 
-var b = {
-  prop2: 'Universe',
-  name:  'Josh',
-  arr:   ['z', 'G', 'a']
+const objectB = {
+	shallowArray: null,
+	deepArray: [1, 2, 3, deeplyNestedObject, 4, 5, 6],
 };
 
-var result = objectAssignDeep(a, b);
+const objectC = {
+	shallowArray: [`z`, `G`, `a`],
+};
 
-console.log('Result:', result);
+const result = objectAssignDeep(objectA, objectB, objectC);
+
+deeplyNestedObject.hello = `This value should not be in the result because it was added to the object after cloning.`;
+
+console.log(`Result:`, result);
