@@ -16,6 +16,7 @@
     "extend",
     "clone",
     "copy",
+    "merge",
     "object",
     "array"
   ],
