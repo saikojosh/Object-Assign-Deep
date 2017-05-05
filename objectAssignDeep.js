@@ -1,49 +1,123 @@
+'use strict';
+
 /*
- * Object Assign Deep.
+ * OBJECT ASSIGN DEEP
+ * Allows deep cloning of plain objects that contain primitives, nested plain objects, or nested plain arrays.
  */
 
-var objectAssign = require('object-assign');
-var _            = require('underscore');
+/*
+ * A unified way of returning a string that describes the type of the given variable.
+ */
+function getTypeOf (input) {
 
-module.exports = function ME (target, source) {
+	if (input === null) {
+		return `null`;
+	}
 
-  var args       = Array.prototype.slice.call(arguments);
-  var startIndex = 1;
-  var output     = Object(target || {});
+	else if (typeof input === `undefined`) {
+		return `undefined`;
+	}
 
-  // Cycle the source object arguments.
-	for (var a = startIndex, alen = args.length ; a < alen ; a++) {
-		var from = args[a];
-		var keys = Object.keys(Object(from));
+	else if (typeof input === `object`) {
+		return (Array.isArray(input) ? `array` : `object`);
+	}
 
-    // Cycle the properties.
-		for (var k = 0; k < keys.length; k++) {
-      var key = keys[k];
+	return typeof input;
 
-      // Merge arrays.
-      if (_.isArray(output[key]) || _.isArray(from[key])) {
-        var o = (_.isArray(output[key]) ? output[key].slice() : []);
-        var f = (_.isArray(from[key])   ? from[key].slice()   : []);
-        output[key] = o.concat(f);
-      }
+}
 
-      // Copy functions references.
-      else if (_.isFunction(output[key]) || _.isFunction(from[key])) {
-        output[key] = from[key];
-      }
+/*
+ * Branching logic which calls the correct function to clone the given value base on its type.
+ */
+function cloneValue (value) {
 
-      // Extend objects.
-      else if (_.isObject(output[key]) || _.isObject(from[key])) {
-        output[key] = ME(output[key], from[key]);
-      }
+	// The value is an object so lets clone it.
+	if (getTypeOf(value) === `object`) {
+		return quickCloneObject(value);
+	}
 
-      // Copy all other types.
-      else {
-        output[key] = from[key];
-      }
+	// The value is an array so lets clone it.
+	else if (getTypeOf(value) === `array`) {
+		return quickCloneArray(value);
+	}
+
+	// Any other value can just be copied.
+	return value;
+
+}
+
+/*
+ * Enumerates the given array and returns a new array, with each of its values cloned (i.e. references broken).
+ */
+function quickCloneArray (input) {
+	return input.map(cloneValue);
+}
+
+/*
+ * Enumerates the properties of the given object (ignoring the prototype chain) and returns a new object, with each of
+ * its values cloned (i.e. references broken).
+ */
+function quickCloneObject (input) {
+
+	const output = {};
+
+	for (const key in input) {
+		if (!input.hasOwnProperty(key)) { continue; }
+
+		output[key] = cloneValue(input[key]);
+	}
+
+	return output;
+
+}
+
+/*
+ * Merge all the supplied objects into a single new object, breaking all references, including those of nested objects
+ * and arrays, and even objects nested inside arrays. The first parameter is not mutated unlike Object.assign().
+ * Properties in later objects will always overwrite.
+ */
+module.exports = function objectAssignDeep (..._objects) {
+
+	// Ensure we have actual objects for each.
+	const objects = _objects.map(object => object || {});
+
+	const output = {};
+
+	// Enumerate the objects and their keys.
+	for (let oindex = 0; oindex < objects.length; oindex++) {
+		const object = objects[oindex];
+		const keys = Object.keys(object);
+
+		for (let kindex = 0; kindex < keys.length; kindex++) {
+			const key = keys[kindex];
+			const value = object[key];
+			const type = getTypeOf(value);
+			const existingValueType = getTypeOf(output[key]);
+
+			if (type === `object`) {
+				if (existingValueType !== `undefined`) {
+					output[key] = objectAssignDeep((existingValueType === `object` ? output[key] : {}), quickCloneObject(value));
+				}
+				else {
+					output[key] = quickCloneObject(value);
+				}
+			}
+
+			else if (type === `array`) {
+				if (existingValueType === `array`) {
+					output[key] = output[key].concat(quickCloneArray(value));
+				}
+				else {
+					output[key] = quickCloneArray(value);
+				}
+			}
+
+			else {
+				output[key] = value;
+			}
+
 
 		}
-
 	}
 
 	return output;
