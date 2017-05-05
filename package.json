@@ -27,8 +27,18 @@
     }
   ],
   "dependencies": {
-    "object-assign": "2.0.x",
-    "underscore": "1.7.x"
+
   },
-  "license": "MIT"
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-recombix": "latest",
+    "eslint-plugin-filenames": "latest",
+    "eslint-plugin-json": "latest",
+    "eslint-plugin-node": "^4.2.1",
+    "eslint-plugin-promise": "latest"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  }
 }
