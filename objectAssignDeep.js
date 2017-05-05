@@ -72,16 +72,14 @@ function quickCloneObject (input) {
 }
 
 /*
- * Merge all the supplied objects into a single new object, breaking all references, including those of nested objects
- * and arrays, and even objects nested inside arrays. The first parameter is not mutated unlike Object.assign().
- * Properties in later objects will always overwrite.
+ * Does the actual deep merging.
  */
-module.exports = function objectAssignDeep (..._objects) {
+function executeDeepMerge (target, _objects = []) {
 
 	// Ensure we have actual objects for each.
 	const objects = _objects.map(object => object || {});
 
-	const output = {};
+	const output = target || {};
 
 	// Enumerate the objects and their keys.
 	for (let oindex = 0; oindex < objects.length; oindex++) {
@@ -96,7 +94,8 @@ module.exports = function objectAssignDeep (..._objects) {
 
 			if (type === `object`) {
 				if (existingValueType !== `undefined`) {
-					output[key] = objectAssignDeep((existingValueType === `object` ? output[key] : {}), quickCloneObject(value));
+					const existingValue = (existingValueType === `object` ? output[key] : {});
+					output[key] = executeDeepMerge(null, [existingValue, quickCloneObject(value)]);
 				}
 				else {
 					output[key] = quickCloneObject(value);
@@ -122,4 +121,20 @@ module.exports = function objectAssignDeep (..._objects) {
 
 	return output;
 
+}
+
+/*
+ * Merge all the supplied objects into a single new object, breaking all references, including those of nested objects
+ * and arrays, and even objects nested inside arrays. The first parameter is not mutated unlike Object.assign().
+ * Properties in later objects will always overwrite.
+ */
+module.exports = function objectAssignDeep (...objects) {
+	return executeDeepMerge(null, objects);
+};
+
+/*
+ * Same as objectAssignDeep() except it mutates the target object by merging everything else into it.
+ */
+module.exports.into = function objectAssignDeepInto (target, ...objects) {
+	return executeDeepMerge(target, objects);
 };
