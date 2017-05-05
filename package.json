@@ -1,7 +1,4 @@
 {
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/saikojosh/Object-Assign-Deep.git"
@@ -11,12 +8,16 @@
   },
   "name": "object-assign-deep",
   "version": "0.0.4",
-  "description": "Like \"object-assign\", but deeper.",
+  "description": "Allows deep cloning of plain objects that contain primitives, nested plain objects, or nested plain arrays.",
   "keywords": [
     "object",
     "assign",
     "deep",
-    "extend"
+    "extend",
+    "clone",
+    "copy",
+    "object",
+    "array"
   ],
   "main": "objectAssignDeep.js",
   "author": "Josh Cole <saikojosh@gmail.com> (http://www.JoshuaCole.me)",
