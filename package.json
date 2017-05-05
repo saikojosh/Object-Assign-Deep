@@ -7,7 +7,7 @@
     "url": "https://github.com/saikojosh/Object-Assign-Deep/issues"
   },
   "name": "object-assign-deep",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Allows deep cloning of plain objects that contain primitives, nested plain objects, or nested plain arrays.",
   "keywords": [
     "object",
@@ -27,9 +27,7 @@
       "email": "saikojosh@gmail.com"
     }
   ],
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "latest",
     "eslint-config-recombix": "latest",
