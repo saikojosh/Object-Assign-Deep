@@ -96,3 +96,5 @@ Takes a target, an array of objects to merge in, and an options object which can
 | Option         | Default Value | Description |
 |----------------|---------------|-------------|
 | arrayBehaviour | "replace"     | By default arrays in later objects will overwrite earlier values, but you can set this to "merge" if you want to concatenate the arrays instead. |
+
+If you need more customisation options please take a look at the [Object-Extender](https://npmjs.org/package/object-extender) module which builds upon Object-Assign-Deep.
