@@ -93,6 +93,6 @@ Merges all the objects together without mutating any of them and returning the e
 ### objectAssignDeep.withOptions(target, objects, options);
 Takes a target, an array of objects to merge in, and an options object which can be used to change the behaviour of the function. The available options are:
 
-| Property       | Default   | Description |
-|----------------|-----------|-------------|
-| arrayBehaviour | "replace" | By default arrays in later objects will overwrite earlier values, but you can set this to "merge" if you want to concatenate the arrays instead. |
+| Option         | Default Value | Description |
+|----------------|---------------|-------------|
+| arrayBehaviour | "replace"     | By default arrays in later objects will overwrite earlier values, but you can set this to "merge" if you want to concatenate the arrays instead. |
