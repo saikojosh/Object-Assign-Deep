@@ -35,8 +35,11 @@ const objectC = {
 	shallowArray: [`z`, `G`, `a`],
 };
 
-const result = objectAssignDeep(objectA, objectB, objectC);
+const resultWithArrayReplace = objectAssignDeep({}, objectA, objectB, objectC);
+const resultWithArrayMerge = objectAssignDeep.withOptions({}, [objectA, objectB, objectC], { arrayBehaviour: `merge` });
 
 deeplyNestedObject.hello = `This value should not be in the result because it was added to the object after cloning.`;
 
-console.log(`Result:`, result);
+console.log(`Result with array REPLACE:`, resultWithArrayReplace);
+console.log(``);
+console.log(`Result with array MERGE:`, resultWithArrayMerge);

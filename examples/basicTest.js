@@ -13,7 +13,7 @@
  *     prop2: 'Universe',
  *     nested: { bool: false, super: 999, still: 'here!' },
  *     array1: null,
- *     array2: [ 4, 5, 6 ],
+ *     array2: [100, 101, 102],
  *     name: 'Bob',
  *     location: 'United Kingdom'
  *   }
@@ -51,6 +51,7 @@ const objectC = {
 	nested: {
 		super: 999,
 	},
+	array2: [100, 101, 102],
 };
 
 const result = objectAssignDeep(objectA, objectB, objectC);
