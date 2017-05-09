@@ -74,7 +74,11 @@ function quickCloneObject (input) {
 /*
  * Does the actual deep merging.
  */
-function executeDeepMerge (target, _objects = []) {
+function executeDeepMerge (target, _objects = [], _options = {}) {
+
+	const options = {
+		arrayBehaviour: _options.arrayBehaviour || `replace`,  // Can be "merge" or "replace".
+	};
 
 	// Ensure we have actual objects for each.
 	const objects = _objects.map(object => object || {});
@@ -95,7 +99,7 @@ function executeDeepMerge (target, _objects = []) {
 			if (type === `object`) {
 				if (existingValueType !== `undefined`) {
 					const existingValue = (existingValueType === `object` ? output[key] : {});
-					output[key] = executeDeepMerge(null, [existingValue, quickCloneObject(value)]);
+					output[key] = executeDeepMerge({}, [existingValue, quickCloneObject(value)], options);
 				}
 				else {
 					output[key] = quickCloneObject(value);
@@ -104,7 +108,8 @@ function executeDeepMerge (target, _objects = []) {
 
 			else if (type === `array`) {
 				if (existingValueType === `array`) {
-					output[key] = output[key].concat(quickCloneArray(value));
+					const newValue = quickCloneArray(value);
+					output[key] = (options.arrayBehaviour === `merge` ? output[key].concat(newValue) : newValue);
 				}
 				else {
 					output[key] = quickCloneArray(value);
@@ -124,17 +129,24 @@ function executeDeepMerge (target, _objects = []) {
 }
 
 /*
- * Merge all the supplied objects into a single new object, breaking all references, including those of nested objects
+ * Merge all the supplied objects into the target object, breaking all references, including those of nested objects
  * and arrays, and even objects nested inside arrays. The first parameter is not mutated unlike Object.assign().
  * Properties in later objects will always overwrite.
  */
-module.exports = function objectAssignDeep (...objects) {
-	return executeDeepMerge(null, objects);
+module.exports = function objectAssignDeep (target, ...objects) {
+	return executeDeepMerge(target, objects);
 };
 
 /*
- * Same as objectAssignDeep() except it mutates the target object by merging everything else into it.
+ * Same as objectAssignDeep() except it doesn't mutate the target object and returns an entirely new object.
  */
-module.exports.into = function objectAssignDeepInto (target, ...objects) {
-	return executeDeepMerge(target, objects);
+module.exports.noMutate = function objectAssignDeepInto (...objects) {
+	return executeDeepMerge({}, objects);
+};
+
+/*
+ * Allows an options object to be passed in to customise the behaviour of the function.
+ */
+module.exports.withOptions = function objectAssignDeepInto (target, objects, options) {
+	return executeDeepMerge(target, objects, options);
 };
