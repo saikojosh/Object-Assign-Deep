@@ -1,5 +1,9 @@
 # Object-Assign-Deep
-Like [Object.assign()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) but deeper. This module is the holy grail of simple object manipulation in JavaScript and it does not resort to using the JSON functions.
+Like [Object.assign()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) but deeper. This module is the holy grail of simple object manipulation in JavaScript and it does not resort to using the JSON functions. If you need more power or fine-grained control please take a look at the [Object-Extender](https://npmjs.org/package/object-extender) module.
+
+## Breaking Changes in v0.3!
+* `objectAssignDeep()` now mutates the first argument in the same way `Object.assign()` does.
+* By default, arrays are now replaced instead of merged to preserve backwards compatibility with older versions of this module.
 
 ## Caution! Danger of Death!
 This module is to be used with PLAIN objects that contain primitive values ONLY. Every time you misuse this module a kitten dies.. yes you're a kitten killer.
@@ -10,10 +14,7 @@ Do not use this module if:
 * Your objects are instances of some class you've written.
 * You are concerned with prototype chains, property descriptors, unenumerable properties, and any other advanced uses.
 
-If you need to do something fancy like the above there are better solutions out there.
-
-## Differences to Object.Assign()
-By default this module does NOT mutate the first parameter like Object.assign(), instead it always returns a new object with all the properties copied across and the parameters left intact. You can use the objectAssignDeep.into() function to make the first parameter the target and mutate it.
+If you need to do something fancy like the above you'll need to write a custom solution for your use case.
 
 ## Quick Start
 You can merge plain objects or clone them:
@@ -21,17 +22,9 @@ You can merge plain objects or clone them:
 ```javascript
 const objectAssignDeep = require(`object-assign-deep`);
 
-const mergedObjects = objectAssignDeep(object1, object2, ...objectN);
+const mergedObjects = objectAssignDeep(target, object1, object2, ...objectN);
 
-const clonedObject = objectAssignDeep(originalObject);
-```
-
-To make the first parameter the target and mutate it like Object.assign():
-
-```javascript
-const objectAssignDeep = require(`object-assign-deep`);
-
-objectAssignDeep.into(target, object1, object2, ...objectN);
+const clonedObject = objectAssignDeep({}, originalObject);
 ```
 
 Simples!
@@ -69,6 +62,7 @@ const objectC = {
 	nested: {
 		super: 999,
 	},
+	array2: [100, 101, 102],
 };
 
 const result = objectAssignDeep(objectA, objectB, objectC);
@@ -81,7 +75,7 @@ console.log(`Result:`, result);
 *     prop2: 'Universe',
 *     nested: { bool: false, super: 999, still: 'here!' },
 *     array1: null,
-*     array2: [ 4, 5, 6 ],
+*     array2: [100, 101, 102],
 *     name: 'Bob',
 *     location: 'United Kingdom'
 *   }
