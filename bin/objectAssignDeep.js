@@ -89,17 +89,19 @@ return /******/ (function(modules) { // webpackBootstrap
  * A unified way of returning a string that describes the type of the given variable.
  */
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function getTypeOf(input) {
 
 	if (input === null) {
-		return `null`;
-	} else if (typeof input === `undefined`) {
-		return `undefined`;
-	} else if (typeof input === `object`) {
-		return Array.isArray(input) ? `array` : `object`;
+		return 'null';
+	} else if (typeof input === 'undefined') {
+		return 'undefined';
+	} else if (typeof input === 'object') {
+		return Array.isArray(input) ? 'array' : 'object';
 	}
 
-	return typeof input;
+	return typeof input === 'undefined' ? 'undefined' : _typeof(input);
 }
 
 /*
@@ -108,12 +110,12 @@ function getTypeOf(input) {
 function cloneValue(value) {
 
 	// The value is an object so lets clone it.
-	if (getTypeOf(value) === `object`) {
+	if (getTypeOf(value) === 'object') {
 		return quickCloneObject(value);
 	}
 
 	// The value is an array so lets clone it.
-	else if (getTypeOf(value) === `array`) {
+	else if (getTypeOf(value) === 'array') {
 			return quickCloneArray(value);
 		}
 
@@ -134,9 +136,9 @@ function quickCloneArray(input) {
  */
 function quickCloneObject(input) {
 
-	const output = {};
+	var output = {};
 
-	for (const key in input) {
+	for (var key in input) {
 		if (!input.hasOwnProperty(key)) {
 			continue;
 		}
@@ -150,39 +152,44 @@ function quickCloneObject(input) {
 /*
  * Does the actual deep merging.
  */
-function executeDeepMerge(target, _objects = [], _options = {}) {
+function executeDeepMerge(target) {
+	var _objects = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-	const options = {
-		arrayBehaviour: _options.arrayBehaviour || `replace` // Can be "merge" or "replace".
+	var _options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	var options = {
+		arrayBehaviour: _options.arrayBehaviour || 'replace' // Can be "merge" or "replace".
 	};
 
 	// Ensure we have actual objects for each.
-	const objects = _objects.map(object => object || {});
+	var objects = _objects.map(function (object) {
+		return object || {};
+	});
 
-	const output = target || {};
+	var output = target || {};
 
 	// Enumerate the objects and their keys.
-	for (let oindex = 0; oindex < objects.length; oindex++) {
-		const object = objects[oindex];
-		const keys = Object.keys(object);
+	for (var oindex = 0; oindex < objects.length; oindex++) {
+		var object = objects[oindex];
+		var keys = Object.keys(object);
 
-		for (let kindex = 0; kindex < keys.length; kindex++) {
-			const key = keys[kindex];
-			const value = object[key];
-			const type = getTypeOf(value);
-			const existingValueType = getTypeOf(output[key]);
+		for (var kindex = 0; kindex < keys.length; kindex++) {
+			var key = keys[kindex];
+			var value = object[key];
+			var type = getTypeOf(value);
+			var existingValueType = getTypeOf(output[key]);
 
-			if (type === `object`) {
-				if (existingValueType !== `undefined`) {
-					const existingValue = existingValueType === `object` ? output[key] : {};
+			if (type === 'object') {
+				if (existingValueType !== 'undefined') {
+					var existingValue = existingValueType === 'object' ? output[key] : {};
 					output[key] = executeDeepMerge({}, [existingValue, quickCloneObject(value)], options);
 				} else {
 					output[key] = quickCloneObject(value);
 				}
-			} else if (type === `array`) {
-				if (existingValueType === `array`) {
-					const newValue = quickCloneArray(value);
-					output[key] = options.arrayBehaviour === `merge` ? output[key].concat(newValue) : newValue;
+			} else if (type === 'array') {
+				if (existingValueType === 'array') {
+					var newValue = quickCloneArray(value);
+					output[key] = options.arrayBehaviour === 'merge' ? output[key].concat(newValue) : newValue;
 				} else {
 					output[key] = quickCloneArray(value);
 				}
@@ -200,14 +207,22 @@ function executeDeepMerge(target, _objects = [], _options = {}) {
  * and arrays, and even objects nested inside arrays. The first parameter is not mutated unlike Object.assign().
  * Properties in later objects will always overwrite.
  */
-module.exports = function objectAssignDeep(target, ...objects) {
+module.exports = function objectAssignDeep(target) {
+	for (var _len = arguments.length, objects = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		objects[_key - 1] = arguments[_key];
+	}
+
 	return executeDeepMerge(target, objects);
 };
 
 /*
  * Same as objectAssignDeep() except it doesn't mutate the target object and returns an entirely new object.
  */
-module.exports.noMutate = function objectAssignDeepInto(...objects) {
+module.exports.noMutate = function objectAssignDeepInto() {
+	for (var _len2 = arguments.length, objects = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+		objects[_key2] = arguments[_key2];
+	}
+
 	return executeDeepMerge({}, objects);
 };
 
