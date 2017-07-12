@@ -6,6 +6,10 @@
   "bugs": {
     "url": "https://github.com/saikojosh/Object-Assign-Deep/issues"
   },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --color --env build",
+    "dev": "webpack --progress --colors --watch --env dev"
+  },
   "name": "object-assign-deep",
   "version": "0.3.1",
   "description": "Allows deep cloning of plain objects that contain primitives, nested plain objects, or nested plain arrays.",
@@ -30,12 +34,22 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "eslint": "latest",
-    "eslint-config-recombix": "latest",
-    "eslint-plugin-filenames": "latest",
-    "eslint-plugin-json": "latest",
-    "eslint-plugin-node": "^4.2.1",
-    "eslint-plugin-promise": "latest"
+    "babel-core": "^6.25.0",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "clean-webpack-plugin": "^0.1.16",
+    "cross-env": "^5.0.1",
+    "eslint": "^4.2.0",
+    "eslint-config-recombix": "^0.2.5",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-filenames": "^1.2.0",
+    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "webpack": "^3.2.0",
+    "webpack-clean": "^1.0.0",
+    "yargs": "8.0.2"
   },
   "license": "MIT",
   "engines": {
