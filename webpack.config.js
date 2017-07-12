@@ -29,7 +29,7 @@ const config = {
     entry: `${__dirname}/src/objectAssignDeep.js`,
     devtool: 'source-map',
     output: {
-        path: `${__dirname}/dist`,
+        path: `${__dirname}/bin`,
         filename: outputFile,
         library: libraryName,
         libraryTarget: 'umd',

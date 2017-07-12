@@ -24,7 +24,7 @@
     "object",
     "array"
   ],
-  "main": "objectAssignDeep.js",
+  "main": "bin/objectAssignDeep.js",
   "author": "Josh Cole <saikojosh@gmail.com> (http://www.JoshuaCole.me)",
   "contributors": [
     {
