@@ -20,7 +20,7 @@
     "object",
     "array"
   ],
-  "main": "objectAssignDeep.js",
+  "main": "dist/objectAssignDeep.js",
   "author": "Josh Cole <saikojosh@gmail.com> (http://www.JoshuaCole.me)",
   "contributors": [
     {
