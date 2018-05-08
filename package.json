@@ -28,8 +28,13 @@
       "email": "saikojosh@gmail.com"
     }
   ],
+  "scripts": {
+    "build": "babel objectAssignDeep.js -d dist"
+  },
   "dependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "latest",
     "eslint-config-recombix": "latest",
     "eslint-config-vue": "latest",

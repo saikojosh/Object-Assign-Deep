@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["ie >= 11"],
+          "node": "4.0.0"
+        }
+      }
+    ]
+  ]
+}
