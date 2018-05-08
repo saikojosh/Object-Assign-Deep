@@ -29,7 +29,8 @@
     }
   ],
   "scripts": {
-    "build": "babel objectAssignDeep.js -d dist"
+    "build": "babel objectAssignDeep.js -d dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {},
   "devDependencies": {
